@@ -24,15 +24,15 @@ const EXPO_PUBLIC_APP_ENV = (process.env.EXPO_PUBLIC_APP_ENV
   ?? 'development') as z.infer<typeof envSchema>['EXPO_PUBLIC_APP_ENV'];
 
 const BUNDLE_IDS = {
-  development: 'com.aguaditas-app.development',
-  preview: 'com.aguaditas-app.preview',
-  production: 'com.aguaditas-app',
+  development: 'com.aguaditas_app.development',
+  preview: 'com.aguaditas_app.preview',
+  production: 'com.aguaditas_app',
 } as const;
 
 const PACKAGES = {
-  development: 'com.aguaditas-app.development',
-  preview: 'com.aguaditas-app.preview',
-  production: 'com.aguaditas-app',
+  development: 'com.aguaditas_app.development',
+  preview: 'com.aguaditas_app.preview',
+  production: 'com.aguaditas_app',
 } as const;
 
 const SCHEMES = {

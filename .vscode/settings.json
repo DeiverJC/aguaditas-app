@@ -15,18 +15,36 @@
     "source.organizeImports": "never"
   },
 
+  // Ensure ESLint is the only one formatting
+  "[javascript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "editor.formatOnSave": true
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "editor.formatOnSave": true
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "editor.formatOnSave": true
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "editor.formatOnSave": true
+  },
+
   // Silence stylistic rules in IDE while still auto-fixing them
   "eslint.rules.customizations": [
-    { "rule": "style/*", "severity": "off", "fixable": true },
-    { "rule": "format/*", "severity": "off", "fixable": true },
-    { "rule": "*-indent", "severity": "off", "fixable": true },
-    { "rule": "*-spacing", "severity": "off", "fixable": true },
-    { "rule": "*-spaces", "severity": "off", "fixable": true },
-    { "rule": "*-order", "severity": "off", "fixable": true },
-    { "rule": "*-dangle", "severity": "off", "fixable": true },
-    { "rule": "*-newline", "severity": "off", "fixable": true },
-    { "rule": "*quotes", "severity": "off", "fixable": true },
-    { "rule": "*semi", "severity": "off", "fixable": true }
+    { "rule": "style/*", "severity": "error", "fixable": true },
+    { "rule": "format/*", "severity": "error", "fixable": true },
+    { "rule": "*-indent", "severity": "error", "fixable": true },
+    { "rule": "*-spacing", "severity": "error", "fixable": true },
+    { "rule": "*-spaces", "severity": "error", "fixable": true },
+    { "rule": "*-order", "severity": "error", "fixable": true },
+    { "rule": "*-dangle", "severity": "error", "fixable": true },
+    { "rule": "*-newline", "severity": "error", "fixable": true },
+    { "rule": "*quotes", "severity": "error", "fixable": true },
+    { "rule": "*semi", "severity": "error", "fixable": true }
   ],
 
   // Enable ESLint for various file types
@@ -54,6 +72,8 @@
   ],
 
   "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.format.enable": false,
+  "javascript.format.enable": false,
   "cSpell.words": ["Flashlist", "Lato"],
   "i18n-ally.localesPaths": ["src/translations/"],
   "i18n-ally.keystyle": "nested",

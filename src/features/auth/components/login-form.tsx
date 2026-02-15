@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import { useForm } from '@tanstack/react-form';
 
 import * as React from 'react';
@@ -8,31 +9,35 @@ import { Button, Input, Text, View } from '@/components/ui';
 import { getFieldError } from '@/components/ui/form-utils';
 
 const schema = z.object({
-  name: z.string().optional(),
   email: z
     .string({
-      message: 'Email is required',
+      message: 'El correo es obligatorio',
     })
-    .min(1, 'Email is required')
-    .email('Invalid email format'),
+    .min(1, 'El correo es obligatorio')
+    .email('Formato de correo inválido'),
   password: z
     .string({
-      message: 'Password is required',
+      message: 'La contraseña es obligatoria',
     })
-    .min(1, 'Password is required')
-    .min(6, 'Password must be at least 6 characters'),
+    .min(1, 'La contraseña es obligatoria')
+    .min(6, 'La contraseña debe tener al menos 6 caracteres'),
 });
 
 export type FormType = z.infer<typeof schema>;
 
 export type LoginFormProps = {
   onSubmit?: (data: FormType) => void;
+  isLoading?: boolean;
+  error?: string;
 };
 
-export function LoginForm({ onSubmit = () => {} }: LoginFormProps) {
+export function LoginForm({
+  onSubmit = () => { },
+  isLoading = false,
+  error,
+}: LoginFormProps) {
   const form = useForm({
     defaultValues: {
-      name: '',
       email: '',
       password: '',
     },
@@ -51,41 +56,44 @@ export function LoginForm({ onSubmit = () => {} }: LoginFormProps) {
       behavior="padding"
       keyboardVerticalOffset={10}
     >
-      <View className="flex-1 justify-center p-4">
-        <View className="items-center justify-center">
+      <View className="flex-1 justify-center px-6">
+        {/* Logo / Branding */}
+        <View className="mb-10 items-center justify-center">
+          <View className="mb-4 size-20 items-center justify-center rounded-full bg-primary-500">
+            <Ionicons name="water" size={32} color="#fff" />
+          </View>
           <Text
             testID="form-title"
-            className="pb-6 text-center text-4xl font-bold"
+            className="text-center text-3xl font-bold text-charcoal-900 dark:text-white"
           >
-            Sign In
+            Aguaditas
           </Text>
-
-          <Text className="mb-6 max-w-xs text-center text-gray-500">
-            Welcome! 👋 This is a demo login screen! Feel free to use any email
-            and password to sign in and try it out.
+          <Text className="mt-2 text-center text-base text-neutral-500 dark:text-neutral-400">
+            Distribución de Agua y Hielo
           </Text>
         </View>
 
-        <form.Field
-          name="name"
-          children={field => (
-            <Input
-              testID="name"
-              label="Name"
-              value={field.state.value}
-              onBlur={field.handleBlur}
-              onChangeText={field.handleChange}
-              error={getFieldError(field)}
-            />
-          )}
-        />
+        {/* Error message */}
+        {error
+          ? (
+              <View className="mb-4 rounded-xl bg-danger-50 p-3 dark:bg-danger-900">
+                <Text className="text-center text-sm text-danger-600 dark:text-danger-300">
+                  {error}
+                </Text>
+              </View>
+            )
+          : null}
 
         <form.Field
           name="email"
           children={field => (
             <Input
               testID="email-input"
-              label="Email"
+              label="Correo electrónico"
+              placeholder="tu@correo.com"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              autoCorrect={false}
               value={field.state.value}
               onBlur={field.handleBlur}
               onChangeText={field.handleChange}
@@ -99,8 +107,8 @@ export function LoginForm({ onSubmit = () => {} }: LoginFormProps) {
           children={field => (
             <Input
               testID="password-input"
-              label="Password"
-              placeholder="***"
+              label="Contraseña"
+              placeholder="••••••••"
               secureTextEntry={true}
               value={field.state.value}
               onBlur={field.handleBlur}
@@ -110,17 +118,14 @@ export function LoginForm({ onSubmit = () => {} }: LoginFormProps) {
           )}
         />
 
-        <form.Subscribe
-          selector={state => [state.isSubmitting]}
-          children={([isSubmitting]) => (
-            <Button
-              testID="login-button"
-              label="Login"
-              onPress={form.handleSubmit}
-              loading={isSubmitting}
-            />
-          )}
-        />
+        <View className="mt-4">
+          <Button
+            testID="login-button"
+            label="Iniciar Sesión"
+            onPress={form.handleSubmit}
+            loading={isLoading}
+          />
+        </View>
       </View>
     </KeyboardAvoidingView>
   );

@@ -1,7 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import * as React from 'react';
 import { Alert, Pressable, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useLogout } from '@/features/auth/api';
 import { useAuthStore } from '@/features/auth/use-auth-store';
@@ -65,10 +64,7 @@ export function ProfileScreen() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#FAFAFA' }} edges={['top']}>
-      <View style={{ backgroundColor: '#0077FF', paddingHorizontal: 16, paddingTop: 8, paddingBottom: 16 }}>
-        <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fff' }}>Perfil</Text>
-      </View>
+    <View style={{ flex: 1, backgroundColor: '#FAFAFA' }}>
 
       <View style={{ flex: 1, paddingHorizontal: 16, paddingTop: 24 }}>
         {/* User card */}
@@ -141,6 +137,6 @@ export function ProfileScreen() {
           Aguaditas App v0.0.1
         </Text>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }

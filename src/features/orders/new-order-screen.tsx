@@ -2,7 +2,7 @@ import type { Client } from '@/features/clients/api';
 import type { Product } from '@/features/products/api';
 
 import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import * as React from 'react';
 import { useCallback, useState } from 'react';
 import {
@@ -27,18 +27,11 @@ type OrderItemState = {
   product: Product;
 };
 
-function StepHeader({ title, onBack }: { title: string; onBack: () => void }) {
+function HeaderLeft({ onPress }: { onPress: () => void }) {
   return (
-    <View style={{ backgroundColor: '#0077FF', paddingHorizontal: 16, paddingTop: 8, paddingBottom: 16 }}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Pressable onPress={onBack} style={{ flexDirection: 'row', alignItems: 'center', minHeight: 44 }}>
-          <Ionicons name="arrow-back" size={20} color="#fff" />
-          <RNText style={{ color: '#fff', fontWeight: '600', fontSize: 16, marginLeft: 4 }}>Atrás</RNText>
-        </Pressable>
-        <RNText style={{ fontSize: 20, fontWeight: 'bold', color: '#fff' }}>{title}</RNText>
-        <View style={{ width: 60 }} />
-      </View>
-    </View>
+    <Pressable onPress={onPress} style={{ paddingRight: 16 }}>
+      <Ionicons name="arrow-back" size={24} color="#fff" />
+    </Pressable>
   );
 }
 
@@ -80,12 +73,12 @@ function ClientCard({ client, onSelect }: { client: Client; onSelect: () => void
   );
 }
 
-function ClientStep({ onSelect, onBack }: { onSelect: (client: Client) => void; onBack: () => void }) {
+function ClientStep({ onSelect }: { onSelect: (client: Client) => void }) {
   const { data: clients, isLoading } = useClients({ variables: {} });
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#FAFAFA' }} edges={['top']}>
-      <StepHeader title="Paso 1: Cliente" onBack={onBack} />
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#FAFAFA' }} edges={['bottom']}>
+      <Stack.Screen options={{ title: 'Paso 1: Cliente' }} />
       <ScrollView style={{ flex: 1, paddingHorizontal: 16, paddingTop: 12 }}>
         {isLoading
           ? <ActivityIndicator size="large" color="#0077FF" style={{ marginTop: 40 }} />
@@ -182,8 +175,8 @@ function ProductStep({ client, items, totalAmount, onUpdateQuantity, onContinue,
   const { data: products, isLoading } = useProducts();
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#FAFAFA' }} edges={['top']}>
-      <StepHeader title="Paso 2: Productos" onBack={onBack} />
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#FAFAFA' }} edges={['bottom']}>
+      <Stack.Screen options={{ title: 'Paso 2: Productos', headerLeft: () => <HeaderLeft onPress={onBack} /> }} />
       <RNText style={{ paddingHorizontal: 16, paddingTop: 8, fontSize: 14, color: '#888' }}>
         Cliente:
         {' '}
@@ -267,8 +260,8 @@ function CheckoutStep({ client, items, totalAmount, onSubmit, isPending, onBack 
   const user = useAuthStore.use.user();
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#FAFAFA' }} edges={['top']}>
-      <StepHeader title="Resumen" onBack={onBack} />
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#FAFAFA' }} edges={['bottom']}>
+      <Stack.Screen options={{ title: 'Resumen', headerLeft: () => <HeaderLeft onPress={onBack} /> }} />
       <ScrollView style={{ flex: 1, paddingHorizontal: 16, paddingTop: 12 }} contentContainerStyle={{ paddingBottom: 120 }}>
         <View style={{ backgroundColor: '#fff', borderRadius: 16, padding: 16, marginBottom: 16, elevation: 1 }}>
           <RNText style={{ fontSize: 12, fontWeight: '500', color: '#888', textTransform: 'uppercase' }}>Cliente</RNText>
@@ -375,7 +368,6 @@ export function NewOrderScreen() {
           setSelectedClient(c);
           setStep(2);
         }}
-        onBack={() => router.back()}
       />
     );
   }

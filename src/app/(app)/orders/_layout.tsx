@@ -7,16 +7,16 @@ export default function OrdersLayout() {
       screenOptions={{
         headerStyle: { backgroundColor: '#0077FF' },
         headerTintColor: '#ffffff',
-        headerTitleStyle: { fontWeight: '700' },
+        headerTitleStyle: { fontWeight: '700', fontSize: 18 },
       }}
     >
       <Stack.Screen
         name="index"
-        options={{ headerShown: false }}
+        options={{ title: 'Pedidos' }}
       />
       <Stack.Screen
         name="new"
-        options={{ headerShown: false }}
+        options={{ title: 'Nuevo Pedido' }}
       />
     </Stack>
   );

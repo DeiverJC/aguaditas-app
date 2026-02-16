@@ -11,7 +11,6 @@ import {
   ScrollView,
   View,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useOrders } from '@/features/orders/api';
 
@@ -79,10 +78,7 @@ export function OrdersScreen() {
   const { data: orders, isLoading, refetch, error } = useOrders();
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#FAFAFA' }} edges={['top']}>
-      <View style={{ backgroundColor: '#0077FF', paddingHorizontal: 16, paddingTop: 8, paddingBottom: 16 }}>
-        <RNText style={{ fontSize: 20, fontWeight: 'bold', color: '#fff' }}>Pedidos</RNText>
-      </View>
+    <View style={{ flex: 1, backgroundColor: '#FAFAFA' }}>
 
       <ScrollView
         style={{ flex: 1, paddingHorizontal: 16, paddingTop: 12 }}
@@ -132,6 +128,6 @@ export function OrdersScreen() {
       >
         <Ionicons name="add" size={32} color="#fff" />
       </Pressable>
-    </SafeAreaView>
+    </View>
   );
 }

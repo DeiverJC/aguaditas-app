@@ -39,6 +39,17 @@ type RestifyListResponse = {
   }>;
 };
 
+type RestifyDetailResponse = {
+  data: {
+    id: string;
+    type: string;
+    attributes: InventoryAdjustment;
+    relationships?: {
+      items?: InventoryAdjustmentItem[];
+    };
+  };
+};
+
 type CreateAdjustmentInput = {
   user_id: number;
   type: 'input' | 'output';
@@ -68,6 +79,29 @@ export const useInventoryAdjustments = createQuery<
       ...item.attributes,
       id: Number(item.id),
     }));
+  },
+});
+
+export const useInventoryAdjustment = createQuery<
+  InventoryAdjustment,
+  { id: number },
+  AxiosError
+>({
+  queryKey: ['inventory-adjustment'],
+  fetcher: async ({ id }) => {
+    const response = await client.get<RestifyDetailResponse>(
+      `restify/inventory-adjustments/${id}`,
+      { params: { related: 'items' } },
+    );
+    // Merge relationships into attributes or handle them as needed
+    const attributes = response.data.data.attributes;
+    const items = response.data.data.relationships?.items || [];
+    // Inject items into attributes for easier access in UI (casting as any to avoid strict type issues with original type)
+    return {
+      ...attributes,
+      id: Number(response.data.data.id),
+      relationships: { items },
+    } as any;
   },
 });
 
@@ -107,6 +141,20 @@ export const useFinalizeAdjustment = createMutation<
   AxiosError
 >({
   mutationFn: async ({ id }) => {
-    await client.post(`restify/inventory-adjustments/${id}/actions/finalize`);
+    await client.post(`restify/inventory-adjustments/${id}/actions?action=finalize-inventory-adjustment`);
+  },
+});
+
+export const useUpdateAdjustment = createMutation<
+  InventoryAdjustment,
+  Partial<CreateAdjustmentInput> & { id: number },
+  AxiosError
+>({
+  mutationFn: async ({ id, ...variables }) => {
+    const response = await client.post(
+      `restify/inventory-adjustments/${id}`,
+      { ...variables, _method: 'PATCH' },
+    );
+    return response.data.data?.attributes ?? response.data;
   },
 });

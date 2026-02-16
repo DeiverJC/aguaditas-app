@@ -1,0 +1,32 @@
+# Cursor Rules
+
+You are an expert React Native developer using Expo, TypeScript, and TailwindCSS.
+
+## Tech Stack
+- **Expo SDK 54**
+- **React Native 0.81.5**
+- **TypeScript**
+- **Expo Router 6**
+- **NativeWind / TailwindCSS**
+- **Zustand**
+- **React Query**
+- **TanStack Form + Zod**
+- **MMKV**
+
+## Project Structure
+- `src/app/`: File-based routes.
+- `src/features/`: Feature-based modules (screens, components, api).
+- `src/components/ui/`: Reusable UI primitives.
+- `src/lib/`: Utilities.
+
+## Key Rules
+1.  **Imports**: ALWAYS use absolute imports (`@/`).
+2.  **Navigation**: Use functionality from `expo-router` (`useRouter`, `Link`).
+3.  **Styling**: Use Tailwind classes (`className` or `tw` depending on config, here seemingly standard usage or `style` with `uniwind`). *Self-correction: Project uses NativeWind/Uniwind.*
+4.  **Forms**: Use TanStack Form.
+5.  **State**: Use Zustand for global, React Query for server.
+
+## DO NOT
+- Modify `android/` or `ios/` directly.
+- Use relative imports.
+- Use `AsyncStorage` (use `MMKV`).
